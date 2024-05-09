@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "uc-tools"
+name = "python-uc-tools"
 dynamic = ["version"]
 description = ''
 readme = "README.md"
@@ -45,7 +45,7 @@ commit = "cz c {args}"
 pcra = "pre-commit run --all-files"
 version = "cz bump {args}"
 
-[tool.hatch.envs.default]
+[tool.hatch.envs.hatch-test]
 dependencies = [
   "pytest",
   "pytest-cov",
@@ -102,7 +102,7 @@ addopts = [
     "--failed-first",
     "--strict-markers",
     "-q",
-    "--cov=src",
+    "--cov=uc-tools",
     "--cov-report=xml",
     "--cov-report=term-missing",
 ]
