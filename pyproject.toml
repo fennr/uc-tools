@@ -31,6 +31,9 @@ Documentation = "https://github.com/fennr/uc-tools#readme"
 Issues = "https://github.com/fennr/uc-tools/issues"
 Source = "https://github.com/fennr/uc-tools"
 
+[tool.hatch.build.targets.wheel]
+packages = ["src/uc_tools"]
+
 [tool.hatch.version]
 path = "src/uc_tools/__about__.py"
 

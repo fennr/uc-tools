@@ -1,7 +1,7 @@
 # uc_tools
 
-[![PyPI - Version](https://img.shields.io/pypi/v/uc-tools.svg)](https://pypi.org/project/uc-tools)
-[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/uc-tools.svg)](https://pypi.org/project/uc-tools)
+[![PyPI - Version](https://img.shields.io/pypi/v/python-uc-tools.svg)](https://pypi.org/project/python-uc-tools)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/python-uc-tools.svg)](https://pypi.org/project/python-uc-tools)
 
 -----
 
@@ -13,7 +13,7 @@
 ## Installation
 
 ```console
-pip install uc-tools
+pip install python-uc-tools
 ```
 
 ## License
