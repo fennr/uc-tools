@@ -24,6 +24,7 @@ classifiers = [
 ]
 dependencies = [
   "redis>=5.0.4",
+  "tenacity>=8.3.0",
 ]
 
 [project.urls]
@@ -54,6 +55,7 @@ dependencies = [
   "pytest-cov",
   "pytest-asyncio",
   "ruff",
+  "httpx"
 ]
 
 [tool.hatch.envs.types]
@@ -70,6 +72,24 @@ parallel = true
 omit = [
   "src/uc_tools/__about__.py",
 ]
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.format]
+preview = true
+quote-style = "single"
+
+[tool.ruff.lint]
+preview = true
+extend-select = ["C901"]
+
+[tool.ruff.lint.extend-per-file-ignores]
+"*.py" = ["TID252"]
+"tests/*" = ["INP001", "T201", "ARG001"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["foo", "bar"]
 
 [tool.coverage.paths]
 uc_tools = ["src/uc_tools", "*/uc-tools/src/uc_tools"]
@@ -104,13 +124,13 @@ addopts = [
     "--exitfirst",
     "--failed-first",
     "--strict-markers",
-    "-q",
-    "--cov=uc-tools",
+    "--cov=src/uc_tools",
     "--cov-report=xml",
     "--cov-report=term-missing",
+    "-s",
 ]
 pythonpath = [
-    "src",
+    "src/uc_tools",
 ]
 testpaths = [
     "tests",

@@ -1,7 +1,7 @@
-import os
+from __future__ import annotations
+
 from dataclasses import fields
 from pathlib import Path
-from typing import Type
 
 
 class BaseConfig:
@@ -11,8 +11,6 @@ class BaseConfig:
     It's used to define the structure of the application configuration
     and validate the environment variables.
     """
-
-    ...
 
 
 class Env:
@@ -30,15 +28,16 @@ class Env:
         for env_file in env_files:
             if env_file.exists():
                 return env_file
+        msg = f'Cannot find {env_name} file in the current or root project directory.'
         raise FileNotFoundError(
-            f"Cannot find {env_name} file in the current or root project directory."
+            msg
         )
 
     @classmethod
     def load(
         cls,
-        env_name: str = ".env",
-        config: Type[BaseConfig] = None,
+        env_name: str = '.env',
+        config: type[BaseConfig] | None = None,
     ) -> BaseConfig:
         """
         Load environment variables from the environment file.
@@ -55,23 +54,25 @@ class Env:
         settings_dict: dict[str, str | int] = {}
         env_file = cls.find_env(env_name)
 
-        with Path.open(env_file, "r") as f:
+        with Path.open(env_file, 'r') as f:
             for line in f:
                 stripped_line = line.strip()
-                if stripped_line and not stripped_line.startswith("#"):
-                    key, value = map(str.strip, stripped_line.split("="))
+                if stripped_line and not stripped_line.startswith('#'):
+                    key, value = map(str.strip, stripped_line.split('='))
                     try:
                         value = int(value)
                     except ValueError:
-                        value = value if value else ""
+                        value = value or ''
                     settings_dict[key.lower()] = value
 
         for field in fields(config):
             if field.name.lower() not in settings_dict:
-                raise ValueError(f"Missing setting: {field.name}")
-            if field.type != type(settings_dict[field.name]) and field.type != str:
+                msg = f'Missing setting: {field.name}'
+                raise ValueError(msg)
+            if field.type is not type(settings_dict[field.name]) and field.type is not str:
+                msg = f'Invalid type for setting: {field.name}. Expected {field.type}, got {type(settings_dict[field.name])}'
                 raise ValueError(
-                    f"Invalid type for setting: {field.name}. Expected {field.type}, got {type(settings_dict[field.name])}"
+                    msg
                 )
 
         return config(**settings_dict)

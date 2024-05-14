@@ -1,13 +1,13 @@
 import asyncio
+import logging
+from typing import Any, Callable, Coroutine, TypeVar
 
-from typing import Any, Callable, Coroutine, TypeVar, Union
-from ..logger import setup_logger
+T = TypeVar('T')
 
-T = TypeVar("T")
-
+logger = logging.getLogger(__name__)
 
 def retry(
-    max_retries: int = 5, max_delay: Union[int, float] = 5
+    max_retries: int = 5, max_delay: float = 5
 ) -> Callable[
     [Callable[..., Coroutine[Any, Any, T]]], Callable[..., Coroutine[Any, Any, T]]
 ]:
@@ -26,8 +26,6 @@ def retry(
     def decorator(
         func: Callable[..., Coroutine[Any, Any, T]],
     ) -> Callable[..., Coroutine[Any, Any, T]]:
-        logger = setup_logger(__name__)
-
         async def wrapper(*args: Any, **kwargs: Any) -> T:
             for retries_count in range(max_retries + 1):
                 try:
@@ -35,8 +33,7 @@ def retry(
                 except Exception as e:
                     if retries_count < max_retries:
                         logger.warning(
-                            f"Retry attempt {retries_count+1} for function "
-                            f"{func.__name__}: {e}"
+                            f'Retry attempt {retries_count + 1} for function {func.__name__!r}: {e!r}'
                         )
                         await asyncio.sleep(
                             min(
@@ -46,9 +43,10 @@ def retry(
                         )
                     else:
                         logger.error(
-                            f"Max retries reached for function {func.__name__}"
+                            f'Max retries reached for function {func.__name__!r}'
                         )
                         raise
+            return None
 
         return wrapper
 

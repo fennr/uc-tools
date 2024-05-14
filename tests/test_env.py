@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
 import pytest
-from src.uc_tools import BaseConfig, Env
+from uc_tools import BaseConfig, Env
 
 
 @dataclass
@@ -15,10 +15,10 @@ class MockBadConfig(BaseConfig):
 
 
 def test_good_settings():
-    settings: MockGoodConfig = Env.load(env_name="test_env.txt", config=MockGoodConfig)
-    assert settings.test == "hello"
+    settings: MockGoodConfig = Env.load(env_name='test_env.txt', config=MockGoodConfig)
+    assert settings.test == 'hello'
 
 
 def test_bad_settings():
     with pytest.raises(ValueError):
-        Env.load(env_name="test_env.txt", config=MockBadConfig)
+        Env.load(env_name='test_env.txt', config=MockBadConfig)

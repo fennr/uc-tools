@@ -1,9 +1,7 @@
 import base64
 
-from typing import AnyStr, Union
 
-
-def base64_decode(input: str, encoding: str = "utf-8") -> str:
+def base64_decode(input_: str, encoding: str = 'utf-8') -> str:
     """
     Decode a base64-encoded string into a regular string.
 
@@ -14,5 +12,5 @@ def base64_decode(input: str, encoding: str = "utf-8") -> str:
     Returns:
         str: The decoded string.
     """
-    decoded_bytes: bytes = base64.b64decode(input)
+    decoded_bytes: bytes = base64.b64decode(input_)
     return decoded_bytes.decode(encoding)

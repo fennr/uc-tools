@@ -1,16 +1,17 @@
 from __future__ import annotations
-from pathlib import Path
+
 import logging
 from enum import StrEnum
 from logging.handlers import RotatingFileHandler
+from pathlib import Path
 
 
 class LoggingLevel(StrEnum):
-    DEBUG = "DEBUG"
-    INFO = "INFO"
-    WARNING = "WARNING"
-    ERROR = "ERROR"
-    CRITICAL = "CRITICAL"
+    DEBUG = 'DEBUG'
+    INFO = 'INFO'
+    WARNING = 'WARNING'
+    ERROR = 'ERROR'
+    CRITICAL = 'CRITICAL'
 
 
 class FixedLengthFilter(logging.Filter):
@@ -41,7 +42,7 @@ class FixedLengthFilter(logging.Filter):
         if len(string) <= max_length:
             return string
         half = max_length // 2
-        return string[:half] + "..." + string[-half:]
+        return string[:half] + '...' + string[-half:]
 
 
 def setup_logger(
@@ -67,11 +68,11 @@ def setup_logger(
     logger.setLevel(level)
 
     formatter = logging.Formatter(
-        "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+        '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
     )
 
-    logs_folder = Path(__file__).resolve().parent.parent / "logs"
-    log_file = logs_folder / f"{name}.log"
+    logs_folder = Path(__file__).resolve().parent.parent / 'logs'
+    log_file = logs_folder / f'{name}.log'
     log_file.parent.mkdir(parents=True, exist_ok=True)
     if not log_file.exists():
         log_file.touch()

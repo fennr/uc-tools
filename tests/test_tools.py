@@ -1,7 +1,7 @@
-import asyncio
 import pytest
 
-from uc_tools.tools.retry import retry
+# from tenacity import retry
+from src.uc_tools import retry
 
 
 async def test_retry_successful_execution():
@@ -15,8 +15,9 @@ async def test_retry_successful_execution():
 
 async def test_retry_max_retries_reached():
     async def mock_coroutine(*args, **kwargs):
-        raise ValueError("Something went wrong")
+        msg = 'Something went wrong'
+        raise ValueError(msg)
 
-    decorated_func = retry(max_retries=3, max_delay=1)(mock_coroutine)
+    decorated_func = retry(max_retries=1, max_delay=0.1)(mock_coroutine)
     with pytest.raises(ValueError):
         await decorated_func()

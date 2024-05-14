@@ -1,1 +1,3 @@
-from .env import Env, BaseConfig
+__all__ = ('BaseConfig', 'Env')
+
+from .env import BaseConfig, Env
